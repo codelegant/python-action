@@ -5,15 +5,19 @@ class Bag:
     def add(self, x):
         self.data.append(x)
 
-    def addtwice(self, x):
-        self.add(x)
-        self.add(x)
-
     def getvalue(self):
         return self.data
 
 
-class SubBag(Bag):
+class Bag2:
+    def __init__(self):
+        self.data = []
+
+    def showname(self):
+        print(self.data)
+
+
+class SubBag(Bag, Bag2):
     def addthrice(self, x):
         self.add(x)
         self.add(x)
@@ -23,3 +27,4 @@ class SubBag(Bag):
 m = SubBag()
 m.addthrice(3)
 print(m.getvalue())
+m.showname()
