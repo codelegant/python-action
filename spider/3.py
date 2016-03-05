@@ -19,12 +19,12 @@ while queue:
     print('已经抓取：' + str(cnt) + '******正在抓取 <---' + url)
     cnt += 1
     try:
-        urllop = urllib.request.urlopen(url)
+        urllop = urllib.request.urlopen(url, timeout=2)
     except:
-        print('获取页面数据出错')
+        print('获取页面数据超时')
         continue
     if 'html' not in urllop.getheader('Content-Type'):
-        print('链接页面的类型不是html')
+        print('返回类型不是html')
         continue
 
     # 避免程序异常中止, 用try..catch处理异常
