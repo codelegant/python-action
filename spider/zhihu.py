@@ -14,7 +14,7 @@ def de_gzip(data):
 
 
 def get_xsrf(data):
-    cer = re.compile('name="_xsrf".*value="(.*)"', flags=0)  # 正则中有括号，匹配括号中的字符，试试用零宽断言
+    cer = re.compile('name="_xsrf" value="(.*)"', flags=0)  # 正则中有括号，匹配括号中的字符，试试用零宽断言
     str_list = cer.findall(data)
     return str_list[0]
 
