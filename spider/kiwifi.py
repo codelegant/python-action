@@ -22,7 +22,6 @@ def de_gzip(data):
 
 
 defaultHead = {
-    'Connection': 'Keep-Alive',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
     'Accept-Language': 'zh-CN,zh;q=0.8,en:1=0.6',
     'Accept-Encoding': 'gzip, deflate',
@@ -43,26 +42,18 @@ def my_opener(head=defaultHead):
 
 
 url = 'http://xiaolai.kiwifi.cn/account'
+opener = my_opener()
+getCsrf = opener.open(url)
+csrfData = de_gzip(getCsrf.read()).decode('UTF-8')
+csrf = get_csrf(csrfData)  # 需要处理cookie，登录的时候需要使用
 
-urlReq = urllib.request.Request(
-    url,
-    None,
-    {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36',
-        'Connection': 'keep-alive'
-    })  # 初始化连接的参数
-urlRes = urllib.request.urlopen(urlReq)  # 打开一个连接，获取信息
-originData = urlRes.read().decode('UTF-8')
-csrf = get_csrf(originData)
-print(csrf)
 postDict = {
     'account': 'xiaolai@kiwifi.cn',
     'password': '123456',
-    'csrf': get_csrf(originData),
+    'csrf': csrf,
     'type': 'signin'
 }
 postData = urllib.parse.urlencode(postDict).encode()
-opener = my_opener()
 op = opener.open(url, postData)
 data = de_gzip(op.read()).decode('UTF-8')
 print(data)
