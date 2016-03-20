@@ -57,7 +57,7 @@ csrf = get_csrf(csrfData)  # 需要处理cookie，登录的时候需要使用
 """登录信息传递给登录链接"""
 signinUrl = url + '/login/email'
 postDict = {
-    'email': '474927132@qq.cm',
+    'email': '474927132@qq.com',
     'password': 'lcf920527',
     '_xsrf': csrf,
     'remember_me': 'true'
@@ -65,12 +65,17 @@ postDict = {
 postData = urllib.parse.urlencode(postDict).encode()
 op = opener.open(signinUrl, postData)
 data = de_gzip(op.read()).decode('UTF-8')  # 如何将ASCII转换成Native?然后判断是否登录成功
+"""判断登录返回信息"""
 if (op.status == 200 and op.getheader('Content-Type') == 'application/json'):
-    resJson = json.loads(data);
+    resJson = json.loads(data)
     print(resJson)
-    print(op.getheader('Content-Type'))
-    print(op.status)
-    print(op.__class__)  # 判断实例的类名
+    if (resJson['r'] == 0):  # 登录成功
+        success = opener.open(url)
+        successData = de_gzip(success.read()).decode('UTF-8')
+        print(successData)
+    else:
+        print('登录不成功，返回信息：' + resJson)
+
 """登录成功，手动获取数据"""
 # success = opener.open(url)
 # successData = de_gzip(success.read()).decode('UTF-8')
