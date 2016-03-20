@@ -4,6 +4,7 @@ import urllib.request
 import re
 import http.cookiejar
 import urllib.parse
+import json
 
 
 def get_csrf(data):
@@ -53,19 +54,24 @@ csrf = get_csrf(csrfData)  # 需要处理cookie，登录的时候需要使用
 # print(csrf)
 # exit()
 
-"""知乎登录之前，还需要访问一个链接"""
-collectUrl = url + '/collect'
-collect = opener.open(collectUrl).read()  # 使用OPTIONS方法
-
-"""登录信息传递给链接"""
+"""登录信息传递给登录链接"""
 signinUrl = url + '/login/email'
 postDict = {
-    'email': '474927132@qq.com',
+    'email': '474927132@qq.cm',
     'password': 'lcf920527',
     '_xsrf': csrf,
     'remember_me': 'true'
 }
 postData = urllib.parse.urlencode(postDict).encode()
 op = opener.open(signinUrl, postData)
-data = de_gzip(op.read()).decode('UTF-8')
-print(data)
+data = de_gzip(op.read()).decode('UTF-8')  # 如何将ASCII转换成Native?然后判断是否登录成功
+if (op.status == 200 and op.getheader('Content-Type') == 'application/json'):
+    resJson = json.loads(data);
+    print(resJson)
+    print(op.getheader('Content-Type'))
+    print(op.status)
+    print(op.__class__)  # 判断实例的类名
+"""登录成功，手动获取数据"""
+# success = opener.open(url)
+# successData = de_gzip(success.read()).decode('UTF-8')
+# print(successData)

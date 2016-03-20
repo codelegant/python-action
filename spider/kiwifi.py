@@ -1,3 +1,4 @@
+# coding=utf-8
 import gzip
 import urllib.request
 import re
