@@ -49,8 +49,8 @@ csrfData = de_gzip(getCsrf.read()).decode('UTF-8')
 csrf = get_csrf(csrfData)  # 需要处理cookie，登录的时候需要使用
 
 postDict = {
-    'account': 'xiaolai@kiwifi.cn',
-    'password': '123456',
+    'account': '***',
+    'password': '***',
     'csrf': csrf,
     'type': 'signin'
 }

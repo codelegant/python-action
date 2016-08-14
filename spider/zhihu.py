@@ -57,8 +57,8 @@ csrf = get_csrf(csrfData)  # 需要处理cookie，登录的时候需要使用
 """登录信息传递给登录链接"""
 signinUrl = url + '/login/email'
 postDict = {
-    'email': '474927132@qq.com',
-    'password': 'lcf920527',
+    'email': '***',
+    'password': '***',
     '_xsrf': csrf,
     'remember_me': 'true'
 }
